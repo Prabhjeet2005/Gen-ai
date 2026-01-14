@@ -1,3 +1,97 @@
+2:28:00
+
+
+# PRE-Requisites
+## PRE-Requisites 1. Neural Network ("The Brain")
+Mimics Human Brain, It has layer of Neurons(Hold a Number)
+- Input_Layer | Hidden_Layer | Output_Layer
+- *Input Layer :* Takes Data (Pixels of Image)
+- *Hidden Layer :* Each Layer Finds Patterns (edges -> shapes -> faces)
+- *Output Layer :* Final Decision (Eg: Number 9)
+
+### Different Neural Networks:-
+1. Images: CNNs [identify objects, faces, patterns in pictures]
+1. Text[NLP]: RNNs & Transformers - *Recurrent Neural Network*  [understand, translate, generate Human Language]
+1. Audio: [analyze speech, music, sounds]
+### IMPORTANCE: 
+Traditional ML fails with unstructured data(images/text)
+
+### INTERVIEW ANSWER
+- Deep Learning is subset of Machine Learning inspired by neural structure of human brain
+- Traditional ML Models hit Performance Plateau early meaning more data don't yield significant results
+- Deep Learning Model Improve with more the data provided because uncover more pattern
+- **Why ML Performance Plateau?** 
+1. Rely on Manual feature Extraction tell model what to look for, if miss a pattern 1 million more data won't help model see it
+2. Deep Learning does Automated Feature Extraction, Finds own patterns, more data = more patterns
+
+
+## PRE-Requisites 2. Old Way - RNNs & LSTMs [Read text linearly, Slow and Forget Early Words]
+Before tranformers RNNs [Recurrent Neural Network] were used for text
+- Process data word by word 
+- they were "slow" and had "Short term memory"
+- Can't remember context from starting of long paragraph
+### Problem with text
+- In Image -> All Pixels already present
+- In Text -> Sentence -> Word Comes One By One
+
+### How RNN Works?
+- Short Term Memory
+- Eg: The->Remember it, Read "Cat" combine with "The" to get "The Cat", Read "Sat" combine with "The Cat" to get "The Cat Sat"
+
+### Major Flaw RNN
+The Major Flaw (**The Vanishing Gradient**): By the time the RNN reads the 100th word in a paragraph, it has forgotten the 1st word. It couldn't write long essays or code.
+#### Why this flaw Happens? 
+[Just Like Chinese Whispers]
+- Happens Due to Backpropogation (Network learns from its own errors)
+- When the model tries to send the error signal backwards from the end of a long sequence to the beginning to update its weights, it effectively multiplies many small numbers (gradients < 1) together.
+- Mathematically, this causes the signal to shrink exponentially until it becomes zero. As a result, the model fails to learn the relationship between the beginning and the end of the sequence, causing it to 'forget' early context."
+
+
+
+## PRE-Requisites 3. Transformer [Reads text in parallel, Fast, Remember Everything]
+- **CORE CONCEPT:** Instead of reading word by word, It reads entire sentence at once
+
+### A. Attention Mechanism [Noisy party focus on friend voice filter out rest]
+- Attention Mechanism focuses on every other word to figure out the context
+- Eg: "I went to bank to deposit money"
+- Money -> High Score, Deposit -> High Score, I -> Low Score
+- **RESULT:** It Knows bank means financial Institution, not river side.
+
+### B. Self Attention [Understanding Relationships]
+- This lets model understand the grammar on its own without us teaching it the rules
+- Eg: "Animal didn't cross the street because it was too tired."
+- Model asks: What does "it" refer to?
+- Self Attention connects "it" strongly to "animal" and weakly to "street"
+
+### C. Architecture [Encoder-Decoder]
+- Original Tranformers has 2 Parts
+#### 1. ENCODER:
+- Reads & Understands input (Eg: Listening)
+- BERT(Bidirectional Encoder Representation from Transformers) uses only the Encoder (Great for understanding/classification)
+#### 2. DECODER:
+- Generates the output (Eg: Speaking)
+- GPT(Generative Pre Trained Tranformer) uses only Decoder (Great for writing/generating)
+
+## Pre-Requisites 4. Softmax & Temperature
+### 1. Softmax (Output Layer) [Raw Number -> %]
+- In Supervised ML Output is Hard Decision "Cat" or "Dog"
+- In GenAi (LLMs), The Output is **Probability Distribution**
+- Model Don't pick 1 word, it assigns % chance to every word in dictionary
+- Eg: INPUT: "The sky is ..."
+- MODEL OUTPUT: "blue"->80%, "cloudy"->10%, "pizza":0.01%
+
+### 2. Temperature [How much Risk Model can take]
+Parameter from 0 to 1 tells how risky the model acts
+#### A. Temperature = 0 (Safe/Deterministic)
+- Model always pick Highest Probability & give exact same answer every time
+- USE CASE: Coding Assistant, Math Solvers (2+2 always equal 4)
+
+#### B. Temperature = 1 (Creative/Random)
+- Model Takes Risks
+- It might pick "cloudy" or "pizza" just to be different
+- USE CASE: Storytelling, poetry, Brainstorming Ideas
+
+---
 # 1. Introduction to Generative AI
 ## What is GenAi?
 - GenAi is Ai that can create new content [text,images,code] rather than just analyzing existing data like classification
@@ -9,6 +103,8 @@
 **GENAI V/S LLM**
 - GENAI: Broad Term For New Content Generation
 - LLM: Specific Type of GenAI focusing on Language/Text.
+- TRADITIONAL LLM -> Focus only on text
+- Now, MultiModel LLM -> Text, Images, Videos, Audios, Code
 
 ---
 **WHY GEN-AI model required?**
@@ -119,12 +215,90 @@ Moving from "it works on my laptop" to "it works for 10,000 users."
 4. Word: Single Word
 ------------------------------------------------------------------------------
 # 2. Data Preprocessing and Embeddings
-## Data Preprocessing & Cleaning
+## Data Preprocessing & Cleaning 
+```File: 1 Data Preprocessing and Cleaning/text_preprocessing.ipynb```
 - The complete roadmap of a project: 
 - gathering data $\rightarrow$ cleaning it $\rightarrow$ choosing a model $\rightarrow$ building the app $\rightarrow$ deploying it to the web.
-
-## Data representation & vectorization
+---
+## Data representation & vectorization 
+```File: 1 Data Preprocessing and Cleaning/data_representation_vectorization_for_model_training.ipynb```
 - Converting text into numbers (vectors) because computers/models only understand math, not English.
+- PROBLEM: data into MEANINGFUL numbers
+
+1. **Feature Extraction from text/images**
+2. **It's need -> GenAi is maths model needs numbers/vectors**
+---
+3. **Why difficult**
+- **A. Text:** 
+- Eg: "Hi I am Prabhjeet" Hi->0,I->1 and so on.. "Hello his name is ABC" here no correlation with previous string
+- the model might think "I" (1) is bigger than "Hi" (0), which is math nonsense.
+- Also, standard numbering loses context. "Bank" in "River Bank" and "Bank" in "HDFC Bank" would get the same number, confusing the model.
+- **B. IMAGE:** 
+- Suppose handwritten digit recognisation 0-255 color range of pixels, suppose 28x28 image size equals 784 so 784 neural network and then make the prediction
+- A 28x28 image is a 2D grid. To feed it to a simple network, you have to "flatten" it into a long line of 784 numbers. In doing so, you often lose the spatial information (e.g., that pixel [0,0] is next to pixel [0,1]).
+- **C. Audio:** 
+- decibal V/s Frequency table create from (db v/s Hz graph) of audio 
+- Audio is just a wave over time. To make it useful, we have to convert it into a "picture" of sound (Spectrogram - Decibels vs Frequency) so the model can "see" the sound patterns.
+---
+**4. Core Idea**
+- The core idea is not just assignment (1, 2, 3), but ***Mapping***. We want to map every piece of data (word, image, or sound) to a point in a multi-dimensional graph (a coordinate system).
+- The Rule: If two things are similar in meaning, their numbers (vectors) should be close together in math.
+- ***Visualizing the Core Idea: Imagine a 3D graph:***
+- X-axis: Is it living?
+- Y-axis: Is it human?
+- Z-axis: Is it royalty?
+
+- King might be [0.9, 0.9, 0.9], Queen might be [0.9, 0.9, 0.8] (Very close!), Apple might be [0.1, 0.0, 0.0] (Far away)
+---
+### **5. Techniques**
+#### **A. Text Techniques**
+1. **One-Hot Encoding (Oldest):**
+- Creates a massive list of zeros with a single '1'.
+- Cons: Huge memory, no semantic meaning.
+
+2. **Bag of Words (BoW):**
+- Create Sparse Matrix like One Hot Encoding but Counts word frequency. "How many times did 'Prabhjeet' appear?"
+- Can be used for sentiment analysis
+- Cons: Ignores grammar ("Dog bit Man" = "Man bit Dog").
+- N-grams: It is the parameter that tells N words as 1 token
+
+3. **TF-IDF:**
+- Counts frequency but lowers the score of useless words like "the" or "is".
+- Cons: Still no semantic context.
+
+4. **Word Embeddings (Word2Vec / GloVe):**
+- Can Extract Semantic Information
+- The breakthrough. Uses a small neural network to predict words. It learns that "King" and "Queen" are related.
+- Deep Learning Approach
+- **CBOW (Cont. Bag of Words) + SkipGram** 
+##### **A. CBOW:** 
+"The Fill-in-the-Blank Game" The model looks at the surrounding context words and tries to guess the missing target word.
+- Input: Context words ("The", "quick", "fox", "jumps").
+- Target: "brown".
+- Logic: Find the most probable center word.
+- Best For: Smaller datasets. It is faster to train.
+
+##### **B. Skip-gram**
+"The Reverse Game" The model looks at the word and tries to guess the surrounding context words.
+- Input: Center word ("brown").
+- Target: Context ("The", "quick", "fox", "jumps").
+- Logic: This is harder. It forces the model to understand the word "brown" very deeply to know what words usually hang out near it.
+- Best For: Large datasets. It is much better at understanding rare words.
+
+
+5. **Transformers (BERT / GPT) - Current Standard:**
+- *Contextual Embeddings:* It looks at the whole sentence at once. The vector for "Apple" changes depending on if you are talking about fruit or the iPhone company.
+
+#### **B. Image Techniques**
+- Pixel Values: Raw numbers (0-255).
+- CNNs (Convolutional Neural Networks): Extracts features like "Edges," "Textures," and "Shapes" instead of just raw pixels.
+- ViT (Vision Transformers): Splitting images into "patches" (like words in a sentence) and processing them using the same logic as GPT.
+
+#### **C. Audio Techniques**
+- Waveform: Raw amplitude numbers.
+- Spectrograms / Mel-Spectrograms: Converting audio to an image (Heatmap of frequencies). This is what 99% of Audio AI models actually "look" at.
+
+
 
 
 ------------------------------------------------------------------------------
