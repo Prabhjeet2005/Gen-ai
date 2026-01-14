@@ -1,0 +1,44 @@
+# --- Core Data Science ---
+pandas
+numpy
+matplotlib
+scikit-learn
+
+# --- Notebooks & VS Code Support ---
+jupyter
+ipykernel
+notebook
+
+# --- Generative AI Core ---
+openai
+langchain
+langchain-community
+langchain-openai
+python-dotenv  # For managing API keys securely
+
+# --- Hugging Face & Local Models ---
+# Torch is required for local models. 
+# On Mac, this usually installs the MPS (Metal Performance Shaders) version automatically.
+torch
+transformers
+huggingface_hub
+accelerate
+bitsandbytes
+sentence-transformers # For embeddings
+
+# --- Vector Databases (RAG) ---
+chromadb
+faiss-cpu
+
+# --- PDF/File Processing (Common in GenAI) ---
+pypdf
+tiktoken
+
+
+
+# ---------------------
+gensim
+nltk
+plotly
+textblob
+spacy
