@@ -298,6 +298,8 @@ Moving from "it works on my laptop" to "it works for 10,000 users."
 - Waveform: Raw amplitude numbers.
 - Spectrograms / Mel-Spectrograms: Converting audio to an image (Heatmap of frequencies). This is what 99% of Audio AI models actually "look" at.
 
+## Text Classification PROJECT
+
 
 
 
