@@ -36,9 +36,10 @@ tiktoken
 
 
 
-# ---------------------
+# --------------------- MAKE SURE .venv is Activated in Terminal-------------------------
 gensim
 nltk
 plotly
 textblob
 spacy
+seaborn
